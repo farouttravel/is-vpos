@@ -1,23 +1,22 @@
-# QNB Finansbank VPOS Test Project
+# İş Bank VPOS Test Project
 
-This is just a test project to experience QNB Finansbank VPOS features and TXN types.
+This is just a test project to experience İş Bank VPOS features and TXN types.
 
 ## To install and use on your locale
 
 Before starting you might need to install valet tool to run project on your locale with a SSL Certificate.
 To do so, please [refer its docs](https://laravel.com/docs/9.x/valet#installation).
 
-
 Clone the repository and cd in:
 ```
 git clone https://github.com/farouttravel/qnb-vpos
-cd qnb-vpos
+cd is-vpos
 ```
 
 Link as valet web app and secure:
 ```shell
-valet link qnb-vpos
-valet secure qnb-vpos
+valet link is-vpos
+valet secure is-vpos
 valet isolate php@8.1
 ```
 
@@ -26,7 +25,7 @@ Create a `.env` file from blueprint:
 cp .env.example .env
 ```
 Then please edit your `.env` file and set the necessary credentials. 
-Now if everything went well and, your app is up and running, you can visit [https://qnb-vpos.test](https://qnb-vpos.test)
+Now if everything went well and, your app is up and running, you can visit [https://is-vpos.test](https://is-vpos.test)
 and start testing.
 
 ## Disclaimer

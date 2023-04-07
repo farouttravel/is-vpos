@@ -8,6 +8,12 @@
                            class="btn-link alert-link">3DPayHosting</a>
                     </td>
                 </tr>
+                <tr class="bg-warning">
+                    <td>
+                        <a href="/?p=Form&t=PayHosting"
+                           class="btn-link alert-link">PayHosting</a>
+                    </td>
+                </tr>
             </table>
         </div>
     </div>
