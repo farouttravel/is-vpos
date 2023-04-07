@@ -1,0 +1,21 @@
+{
+    "name": "farout/is-vpos",
+    "type": "project",
+    "require": {
+        "vlucas/phpdotenv": "^5.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Vpos\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Mevlüt Canvar",
+            "email": "mevlutcanvar@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "symfony/var-dumper": "^6.2"
+    }
+}
