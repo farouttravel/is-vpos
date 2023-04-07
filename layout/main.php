@@ -1,7 +1,7 @@
 
 <?php /** @var \Vpos\Core $app */ ?>
 
-<?php include_once 'header.html'; ?>
+<?php include_once 'header.php'; ?>
 
 <div class="container">
     <div class="row page-header text-left">
@@ -18,4 +18,4 @@
     </div>
 </div>
 
-<?php include_once 'footer.html'; ?>
+<?php include_once 'footer.php'; ?>
