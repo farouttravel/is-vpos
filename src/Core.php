@@ -13,7 +13,7 @@ class Core
 
     function __construct()
     {
-        $this->pageName = isset($_POST["3DStatus"]) ? self::PAGE_NAME_RESULT : self::pageParameter();
+        $this->pageName = isset($_POST["Response"]) ? self::PAGE_NAME_RESULT : self::pageParameter();
     }
 
     function getPageName()

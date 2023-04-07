@@ -4,17 +4,8 @@
 <?php include_once 'header.html'; ?>
 
 <div class="container">
-    <div class="page-header text-left">
-        <table class="table table-hover ">
-            <tr>
-                <td>
-                    <h1>Isbank</h1>
-                </td>
-                <td>
-                    <h1>Test Scripts</h1>
-                </td>
-            </tr>
-        </table>
+    <div class="row page-header text-left">
+        <h1>Isbank Test Scripts</h1>
         <nav class="text-left">
             <a href="/">List</a>
         </nav>

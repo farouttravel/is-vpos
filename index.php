@@ -10,7 +10,7 @@ function env($name)
 }
 
 global $app;
-dump($_POST);
+
 $app = new \Vpos\Core();
 
 include_once './layout/main.php';
