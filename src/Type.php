@@ -12,7 +12,7 @@ class Type
 
     public function __construct()
     {
-        $this->name = array_key_exists('t', $_GET) ? $_GET['t'] : '3DHost';
+        $this->name = array_key_exists('t', $_GET) ? $_GET['t'] : '3DPayHosting';
         $this->parameters = [];
         if (!isset(PARAMETERS_LOOK_UP[$this->name]))
             throw new \Exception('Blueprints records not found!', 500);
@@ -23,6 +23,10 @@ class Type
 
             $this->parameters[$parameter['name']] = !! env($envName) ? env($envName) : '';
         }
+    }
+
+    function getName() {
+        return $this->name;
     }
 
     function getAction() {

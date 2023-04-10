@@ -30,4 +30,4 @@ and start testing.
 
 ## Disclaimer
 This script is only for testing and exploring the API of the services provided by the bank, only use it for
-this purpose, never insert any production credentials and use it at your own risk.
+this purpose, never use via any production credentials, even for testing use it at your own risk.

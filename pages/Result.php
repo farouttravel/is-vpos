@@ -1,7 +1,9 @@
+<h2>Result</h2>
+
 <div class="mb-2">
-    <?php if (in_array($_POST["mdStatus"], ['1', '2', '3', '4'])) : ?>
+    <?php if (array_key_exists('mdStatus', $_POST) && in_array($_POST["mdStatus"], ['1', '2', '3', '4'])) : ?>
         <span class="label label-success">3D Success</span>
-    <?php else : ?>
+    <?php elseif (array_key_exists('mdStatus', $_POST)) : ?>
         <span class="label label-danger">3D Failed</span>
     <?php endif; ?>
     <br />

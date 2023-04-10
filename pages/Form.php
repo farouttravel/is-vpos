@@ -2,7 +2,7 @@
 
 <form method="post" class="form-horizontal" action="/?p=Review">
     <h2>
-        TXN Type: <?= isset($_GET['t']) ? $_GET['t'] : ""; ?>
+        TXN Type: <?= array_key_exists('t', $_GET) ? $_GET['t'] : ""; ?>
     </h2>
     <br/>
 

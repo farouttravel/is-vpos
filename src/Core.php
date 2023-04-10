@@ -55,17 +55,26 @@ class Core
                 $type = new \Vpos\Type();
                 $parameters = $type->getParameters();
                 $action = $type->getAction();
+
+                $data = [
+                    'taksit' => '',
+                    'currency' => env('CURRENCY'),
+                    'oid' => 'FO' . rand(1000, 10000),
+                    'amount' => '9.95',
+                    'lang' => env('LANG_EN'),
+                    'email' => env('COMPANY_EMAIL'),
+                    'firmaadi' => env('COMPANY_NAME'),
+                    'refreshtime' => '10'
+                ];
+
+                if ($type->getName() === 'PayHosting') {
+                    $data['pan'] = env('CARD_1_PAN');
+                    $data['Ecom_Payment_Card_ExpDate_Year'] = '2025';
+                    $data['Ecom_Payment_Card_ExpDate_Month'] = '12';
+                }
+
                 return [
-                    'dummyData' => [
-                        'taksit' => '',
-                        'currency' => env('CURRENCY'),
-                        'oid' => 'FO' . rand(1000, 10000),
-                        'amount' => '9.95',
-                        'lang' => env('LANG_EN'),
-                        'email' => env('COMPANY_EMAIL'),
-                        'firmaadi' => env('COMPANY_NAME'),
-                        'refreshtime' => '10'
-                    ],
+                    'dummyData' => $data,
                     'parameters' => $parameters,
                     'action' => $action
                 ];
