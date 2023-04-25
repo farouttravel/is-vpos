@@ -1,18 +1,22 @@
+<?php /** @var array $pageData */ ?>
+
 <h2>Result</h2>
 
 <div class="mb-2">
-    <?php if (array_key_exists('mdStatus', $_POST) && in_array($_POST["mdStatus"], ['1', '2', '3', '4'])) : ?>
+    <?php if ($pageData['3DSucceed']) : ?>
         <span class="label label-success">3D Success</span>
-    <?php elseif (array_key_exists('mdStatus', $_POST)) : ?>
+    <?php elseif ($pageData['3DFailed']) : ?>
         <span class="label label-danger">3D Failed</span>
     <?php endif; ?>
     <br />
-    <?php if ($_POST["Response"] == "Approved") : ?>
+    <?php if ($pageData['success']) : ?>
         <span class="label label-success">Payment Success</span>
     <?php else : ?>
         <span class="label label-danger">Payment Failed</span>
+        <br />
+        <br />
+        <p><?= $pageData['errorMessage'] ?></p>
     <?php endif; ?>
-    <br />
     <br />
 </div>
 <div class="table-responsive">
