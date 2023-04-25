@@ -15,7 +15,7 @@ class Type
         $this->name = array_key_exists('t', $_GET) ? $_GET['t'] : '3DPayHosting';
         $this->parameters = [];
         if (!isset(PARAMETERS_LOOK_UP[$this->name]))
-            throw new \Exception('Blueprints records not found!', 500);
+            throw new \Exception('Blueprint records not found!', 500);
 
         $this->action = env($this->getShapedParameterName('formAction'));
         foreach (PARAMETERS_LOOK_UP[$this->name]['parameters'] as $parameter) {
