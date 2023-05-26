@@ -9,7 +9,7 @@ To do so, please [refer its docs](https://laravel.com/docs/9.x/valet#installatio
 
 Clone the repository and cd in:
 ```
-git clone https://github.com/farouttravel/qnb-vpos
+git clone https://github.com/farouttravel/is-vpos
 cd is-vpos
 ```
 
