@@ -74,9 +74,12 @@ class Core
 
     function __construct()
     {
-        $this->pageName = array_key_exists('HASHPARAMSVAL', $_POST) ?
-            self::PAGE_NAME_RESULT :
-            self::pageParameter();
+        $this->pageName =
+            array_key_exists('ProcReturnCode', $_POST) ||
+            array_key_exists('MaskedPan', $_POST) ||
+            array_key_exists('Response', $_POST) ?
+                self::PAGE_NAME_RESULT :
+                self::pageParameter();
     }
 
     function getPageName()
@@ -109,11 +112,39 @@ class Core
         return isset($_GET['p']) ? $_GET['p'] : self::PAGE_NAME_HOMEPAGE;
     }
 
+    function isHashValid()
+    {
+        $hash = '';
+        $arrayKeys = array_keys($_POST);
+        natcasesort($arrayKeys);
+
+        foreach ($arrayKeys as $param){
+            $paramValue = $_POST[$param];
+            $escapedParamValue = str_replace('', '\\|', str_replace('\\', '\\\\', $paramValue));
+
+            if(strtolower($param) != 'hash' && strtolower($param) != 'encoding' )	{
+                $hash .= $escapedParamValue . '|';
+            }
+        }
+
+        $escapedStoreKey = str_replace('|', '\\|', str_replace('\\', '\\\\', env('STORE_KEY')));
+        $hash .= $escapedStoreKey;
+
+        $calculatedHashValue = hash('sha512', $hash);
+        $actualHash = base64_encode (pack('H*',$calculatedHashValue));
+
+        return $_POST['HASH'] == $actualHash;
+    }
+
     private function loadPageData()
     {
         if (
             !array_key_exists('p', $_GET) &&
-            !array_key_exists('HASHPARAMSVAL', $_POST)
+            !(
+                array_key_exists('ProcReturnCode', $_POST) ||
+                array_key_exists('Response', $_POST) ||
+                array_key_exists('MaskedPan', $_POST)
+            )
         ) return null;
 
         switch ($this->getPageName()) {
@@ -123,13 +154,14 @@ class Core
                 $action = $type->getAction();
 
                 $data = [
-                    'taksit' => '',
+                    'Instalment' => '',
                     'currency' => env('CURRENCY'),
                     'oid' => 'FO' . rand(1000, 10000),
                     'amount' => '9.95',
                     'lang' => env('LANG_EN'),
                     'email' => env('COMPANY_EMAIL'),
                     'firmaadi' => env('COMPANY_NAME'),
+                    'hashAlgorithm' => 'ver3',
                     'refreshtime' => '10'
                 ];
 
@@ -147,33 +179,50 @@ class Core
             case 'Review':
                 $random = microtime();
 
-                $hashStr =
-                    $_POST['vpos']['fields']['clientid'] .
-                    $_POST['vpos']['fields']['oid'] .
-                    $_POST['vpos']['fields']['amount'] .
-                    $_POST['vpos']['fields']['okUrl'] .
-                    $_POST['vpos']['fields']['failUrl'] .
-                    $_POST['vpos']['fields']['islemtipi'] .
-                    $_POST['vpos']['fields']['taksit'] .
-                    $random .
-                    env('STORE_KEY');
-                $hash = base64_encode(pack('H*', sha1($hashStr)));
+                $fields = $_POST['vpos']['fields'];
+
+                $fields['rnd'] = $random;
+
+                $fields = array_filter($fields, function ($v, $k) {
+                    return $k == 'Instalment' || $v !== '';
+                }, ARRAY_FILTER_USE_BOTH);
+                $keys = array_keys($fields);
+
+                ksort($fields,  SORT_STRING | SORT_FLAG_CASE);
+                sort($keys,  SORT_STRING | SORT_FLAG_CASE);
+                $fields['storeKey'] = env('STORE_KEY');
+                $keys[] = 'storeKey';
+
+                $hash = base64_encode(
+                    pack(
+                        'H*',
+                        hash('sha512', implode('|', $fields))
+                    )
+                );
                 return [
                     'random' => $random,
                     'hash' => $hash
                 ];
             case 'Result':
+                $hashResult = $this->isHashValid();
                 $bankErrorMessage = array_key_exists('ErrMsg', $_POST) &&
                 !empty($_POST['ErrMsg']) ? $_POST['ErrMsg']  : '';
 
+                $bankErrorMessage .= array_key_exists('mdErrorMsg', $_POST) &&
+                    !empty($_POST['mdErrorMsg']) ? $_POST['mdErrorMsg']  : '';
+
+                if(!$hashResult) $bankErrorMessage .= 'Unauthorized attempt.';
+
                 return [
                     '3DSucceed' =>
+                        $hashResult &&
                         array_key_exists('mdStatus', $_POST) &&
                         in_array($_POST["mdStatus"], ['1', '2', '3', '4']),
                     '3DFailed' =>
                         array_key_exists('mdStatus', $_POST) &&
                         $_POST["mdStatus"] == '0',
                     'success' =>
+                        $hashResult &&
                         array_key_exists('Response', $_POST) &&
                         $_POST["Response"] == "Approved",
                     'errorMessage' =>

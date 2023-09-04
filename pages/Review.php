@@ -9,7 +9,7 @@
             <th>Value</th>
         </tr>
         <?php foreach ($_POST['vpos']['fields'] as $name => $value) : ?>
-            <?php if (!empty($value) || $name == 'taksit') : ?>
+            <?php if (!empty($value) || $name == 'Instalment') : ?>
                 <tr>
                     <td><?= $name ?></td>
                     <td><?= $value ?></td>
