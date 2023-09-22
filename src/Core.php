@@ -186,10 +186,8 @@ class Core
                 $fields = array_filter($fields, function ($v, $k) {
                     return $k == 'Instalment' || $v !== '';
                 }, ARRAY_FILTER_USE_BOTH);
-                $keys = array_keys($fields);
 
                 ksort($fields,  SORT_STRING | SORT_FLAG_CASE);
-                sort($keys,  SORT_STRING | SORT_FLAG_CASE);
                 $fields['storeKey'] = env('STORE_KEY');
                 $keys[] = 'storeKey';
 
