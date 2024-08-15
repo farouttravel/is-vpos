@@ -165,10 +165,15 @@ class Core
                     'refreshtime' => '10'
                 ];
 
-                if ($type->getName() === 'PayHosting') {
-                    $data['pan'] = env('CARD_1_PAN');
-                    $data['Ecom_Payment_Card_ExpDate_Year'] = '2025';
-                    $data['Ecom_Payment_Card_ExpDate_Month'] = '12';
+                if ($type->getName() === 'PayHosting' OR $type->getName() === '3DPay') {
+                    $data['pan'] = env('CARD_PAN');
+                    $data['Ecom_Payment_Card_ExpDate_Year'] = env('CARD_EXPIRE_YEAR');
+                    $data['Ecom_Payment_Card_ExpDate_Month'] = env('CARD_EXPIRE_MONTH');
+                    $data['cv2'] = env('CARD_CVV');
+                }
+
+                if ($type->getName() === '3DPay') {
+                    $data['cardType'] = env('CARD_TYPE');
                 }
 
                 return [
