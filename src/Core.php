@@ -122,9 +122,13 @@ class Core
             $paramValue = $_POST[$param];
             $escapedParamValue = str_replace('', '\\|', str_replace('\\', '\\\\', $paramValue));
 
-            if(strtolower($param) != 'hash' && strtolower($param) != 'encoding' )	{
-                $hash .= $escapedParamValue . '|';
-            }
+            if(
+                strtolower($param) === 'hash' OR
+                strtolower($param) === 'encoding' OR
+                strtolower($param) === 'countdown'
+            ) continue;
+
+            $hash .= $escapedParamValue . '|';
         }
 
         $escapedStoreKey = str_replace('|', '\\|', str_replace('\\', '\\\\', env('STORE_KEY')));
